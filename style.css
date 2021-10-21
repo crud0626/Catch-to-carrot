@@ -49,13 +49,23 @@ div.timer {
 }
 
 div.count {
+  width: 60px;
   border: 1px solid black;
   font-size: 2rem;
   padding: 5px 10px;
-  border-radius: 60%;
+  border-radius: 50%;
+  text-align: center;
+  color: white;
+  background-color: rgb(255, 102, 102);
 }
 
-/* 임시 */
+/* Button */
+div.topBtn,
+div.redoBtn {
+  cursor: pointer;
+}
+
+/* 임시, display none은 painting과정에서 아이에 빠지므로 none보다는 다른 속성으로 */
 div.topBtn > i:nth-child(2) {
   display: none;
 }
