@@ -72,12 +72,7 @@ div.redoBtn:hover {
 }
 
 /* 임시, display none은 painting과정에서 아이에 빠지므로 none보다는 다른 속성으로 */
-div.topBtn > i:nth-child(2) {
-  display: none;
-}
-div.topBtn > i:nth-child(2)::before {
-  display: none;
-}
+
 /*  */
 
 /* section */
@@ -120,11 +115,6 @@ div.item {
 }
 
 /* HIDDEN */
-
-.none {
-  display: none;
-}
-
 .hidden {
   visibility: hidden;
 }
