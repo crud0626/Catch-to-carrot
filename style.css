@@ -65,6 +65,12 @@ div.redoBtn {
   cursor: pointer;
 }
 
+div.topBtn:hover,
+div.redoBtn:hover {
+  transform: scale(1.1);
+  transition: 100ms ease-in-out;
+}
+
 /* 임시, display none은 painting과정에서 아이에 빠지므로 none보다는 다른 속성으로 */
 div.topBtn > i:nth-child(2) {
   display: none;
@@ -107,6 +113,10 @@ div.redoBtn > i {
 }
 
 div.redoBtn > span {
+}
+
+div.item {
+  cursor: pointer;
 }
 
 /* HIDDEN */
