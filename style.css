@@ -112,6 +112,11 @@ div.redoBtn > span {
 
 div.item {
   cursor: pointer;
+  position: absolute;
+}
+
+div.item:hover {
+  transform: scale(1.1);
 }
 
 /* HIDDEN */
