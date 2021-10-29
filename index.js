@@ -9,6 +9,7 @@ const modalSpan = document.querySelector("div.modal > span");
 let playTime;
 let timeChecker;
 let counter;
+let timeID;
 
 // Clear
 topBtn.addEventListener("click", e => {
@@ -28,14 +29,12 @@ function checkState() {
         initGame();
         console.log("init!");
     } else {
-        resumeGame();
-        console.log("resume!");
+        startClock(timerSpan); // 인자 꼭 넣어야 되나?
     }
 }
 
 // Clear
 function initGame() {    
-    // counter랑 carrot개수랑 숫자 맞추기.
     counter = 10;
     playTime = 10;
 
@@ -50,14 +49,12 @@ function initGame() {
     // 노래 재생도 넣어야함.
 }
 
-let timeID;
-
 // Clear
 function startClock(timerSpan) {
     timeID = setTimeout(() => {
         if (playTime === 0) {
             stopClock();
-            // displayModal()
+            failedGame();
             return;
         }
         decreaseTime(timerSpan);
@@ -66,8 +63,6 @@ function startClock(timerSpan) {
 
 function decreaseTime(timerSpan) {
     playTime -= 1;
-
-    // console.log(`Decreasing time is ${sibalTime}`);
     timerSpan.innerText = `00:0${playTime}`; // time앞에 붙이는건 나중에 추가적으로 고려,
     // 이거 숫자니까 if 1 < 10보다 작으면 앞에 0붙이는걸로
     startClock(timerSpan);
@@ -75,13 +70,9 @@ function decreaseTime(timerSpan) {
 
 // Clear
 function stopClock() {
-    console.log(`stopping time is ${playTime}`);
     topBtn.innerHTML = `<i data-func="play" class="fas fa-play playBtn"></i>`;
     clearTimeout(timeID);
-}
-
-function resumeGame() {
-    startClock(timerSpan);
+    // 멈췄을때 섹션에서 이벤트 빼기. 근데 이렇게 되면 resume할 때 이벤트리스너 다시 추가해야될수도
 }
 
 // test결과 여유있게 x는 ~90vw, y는 ~30vh정도까지가 스크롤이 생기지 않아 난수를 제한할 수 있도록 했다.
@@ -97,20 +88,19 @@ function createItem() {
         let carrotY = Math.random() * (30 - 0) + 0;
 
         itemsElem.push(`<div style="transform: translate(${bugX}vw, ${bugY}vh);" class="item"><img src="./img/bug.png" alt="bug"></div>`);
-        itemsElem.push(`<div style="transform: translate(${carrotX}vw,${carrotY}vh);" class="item"><img src="./img/carrot.png" alt="carrot"></div>`);
+        itemsElem.push(`<div style="transform: translate(${carrotX}vw, ${carrotY}vh);" class="item"><img src="./img/carrot.png" alt="carrot"></div>`);
     }
     itemsElem.forEach((elem) => section.innerHTML += elem);
 }
 
 // 시간종료 및 버그 클릭했을때
 function failedGame() {
-    // 모달 창 띄우기 및 span에 fail쓰기
-    // 시간멈추기
+    modalSpan.innerText = "YOU LOSE 😭";
+    modalElem.classList.remove("hidden");
+    stopClock();
     // 실패 BGM 재생.
 }
 
-
-// 캐럿추가했을때, 숫자 떨어지는거, (조건문 사용해서 마지막 일 경우 연계하기)
 function decreaseCount(e) {
     let deleteItem = e.target.parentNode;
     deleteItem.remove();
@@ -124,13 +114,11 @@ function decreaseCount(e) {
     }
 }
 
-
-// carrot이랑 bug용, 여기서 아이에 bug랑 carrot 갈라버려야겠다.
 // 모달은 어차피 안눌려서 상관없음.
 section.addEventListener("click", e => {
     switch (e.target.alt) {
         case "bug":
-            console.log("bug!");
+            failedGame();
             break;
         case "carrot":
             decreaseCount(e);
@@ -138,7 +126,7 @@ section.addEventListener("click", e => {
     }
 });
 
-// redobtn
+// redobtn, 처음부터 다시함.
 redoBtn.addEventListener("click", () => {
     modalElem.classList.add("hidden");
     checkState();
