@@ -3,10 +3,12 @@ const topBtn = document.querySelector("div.topBtn");
 const redoBtn = document.querySelector("div.redoBtn > i");
 const timerSpan = document.querySelector("div.timer span");
 const countSpan = document.querySelector("div.count span");
+const modalElem = document.querySelector("div.modal");
 const modalSpan = document.querySelector("div.modal > span");
 
 let playTime;
 let timeChecker;
+let counter;
 
 // Clear
 topBtn.addEventListener("click", e => {
@@ -34,7 +36,7 @@ function checkState() {
 // Clear
 function initGame() {    
     // counter랑 carrot개수랑 숫자 맞추기.
-    let counter = 10;
+    counter = 10;
     playTime = 10;
 
     timerSpan.innerText = `00:${playTime}`;
@@ -82,7 +84,6 @@ function resumeGame() {
     startClock(timerSpan);
 }
 
-// Success
 // test결과 여유있게 x는 ~90vw, y는 ~30vh정도까지가 스크롤이 생기지 않아 난수를 제한할 수 있도록 했다.
 function createItem() {
     let item = 10;
@@ -101,15 +102,45 @@ function createItem() {
     itemsElem.forEach((elem) => section.innerHTML += elem);
 }
 
+// 시간종료 및 버그 클릭했을때
+function failedGame() {
+    // 모달 창 띄우기 및 span에 fail쓰기
+    // 시간멈추기
+    // 실패 BGM 재생.
+}
 
 
+// 캐럿추가했을때, 숫자 떨어지는거, (조건문 사용해서 마지막 일 경우 연계하기)
+function decreaseCount(e) {
+    let deleteItem = e.target.parentNode;
+    deleteItem.remove();
+
+    counter -= 1;
+    countSpan.innerText = counter;
+    if (counter === 0) {
+        stopClock();
+        modalSpan.innerText = "YOU WON 🥳";
+        modalElem.classList.remove("hidden");
+    }
+}
 
 
-// carrot이랑 bug용
-section.addEventListener("click", (e) => console.log(e));
+// carrot이랑 bug용, 여기서 아이에 bug랑 carrot 갈라버려야겠다.
+// 모달은 어차피 안눌려서 상관없음.
+section.addEventListener("click", e => {
+    switch (e.target.alt) {
+        case "bug":
+            console.log("bug!");
+            break;
+        case "carrot":
+            decreaseCount(e);
+            break;
+    }
+});
 
 // redobtn
 redoBtn.addEventListener("click", () => {
+    modalElem.classList.add("hidden");
     checkState();
     // 모달 없애는거 추가
 });
