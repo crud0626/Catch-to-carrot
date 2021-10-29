@@ -1,6 +1,7 @@
 /img
 /sound
 /bk
+/.vscode
 .DS_store
 *.txt
 test.*
