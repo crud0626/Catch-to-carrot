@@ -11,6 +11,22 @@ let timeChecker;
 let counter;
 let timeID;
 
+// Audio variable
+
+const alertSound = new Audio();
+alertSound.src = "./sound/alert.wav";
+const mainSound = new Audio();
+mainSound.src = "./sound/bg.mp3";
+const bugSound = new Audio();
+bugSound.src = "./sound/bug_pull.mp3";
+const carrotSound = new Audio();
+carrotSound.src = "./sound/carrot_pull.mp3";
+const winSound = new Audio();
+winSound.src = "./sound/game_win.mp3";
+
+// End of audio
+
+
 // Clear
 topBtn.addEventListener("click", e => {
     if (e.target.dataset.func === "play") {
@@ -51,8 +67,10 @@ function initGame() {
 
 // Clear
 function startClock(timerSpan) {
+    mainSound.play();
     timeID = setTimeout(() => {
         if (playTime === 0) {
+            alertSound.play();
             stopClock();
             failedGame();
             return;
@@ -70,6 +88,7 @@ function decreaseTime(timerSpan) {
 
 // Clear
 function stopClock() {
+    mainSound.pause();
     topBtn.innerHTML = `<i data-func="play" class="fas fa-play playBtn"></i>`;
     clearTimeout(timeID);
     // 멈췄을때 섹션에서 이벤트 빼기. 근데 이렇게 되면 resume할 때 이벤트리스너 다시 추가해야될수도
@@ -98,10 +117,10 @@ function failedGame() {
     modalSpan.innerText = "YOU LOSE 😭";
     modalElem.classList.remove("hidden");
     stopClock();
-    // 실패 BGM 재생.
 }
 
 function decreaseCount(e) {
+    carrotSound.play();
     let deleteItem = e.target.parentNode;
     deleteItem.remove();
 
@@ -111,7 +130,10 @@ function decreaseCount(e) {
         stopClock();
         modalSpan.innerText = "YOU WON 🥳";
         modalElem.classList.remove("hidden");
+        winSound.play();
     }
+    // BGM
+
 }
 
 // 모달은 어차피 안눌려서 상관없음.
@@ -119,6 +141,7 @@ section.addEventListener("click", e => {
     switch (e.target.alt) {
         case "bug":
             failedGame();
+            bugSound.play();
             break;
         case "carrot":
             decreaseCount(e);
