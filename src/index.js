@@ -15,9 +15,8 @@ let timeID;
 
 import * as sound from "./sound.js";
 
-// import Popup from "./popup.js";
-
-// const popUp = new Popup(modalElem, modalSpan);
+import Popup from "./popup.js";
+const popUp = new Popup(modalElem, modalSpan);
 
 
 
@@ -108,12 +107,7 @@ function createItem() {
 
 // 시간종료 및 버그 클릭했을때
 function failedGame() {
-    modalSpan.innerText = "YOU LOSE 😭";
-    // 모달
-    modalElem.classList.remove("hidden");
-    // 모달
     popUp.display("YOU LOSE 😭");
-    // 모달 test
     stopClock();
 }
 
@@ -126,13 +120,9 @@ function decreaseCount(e) {
     countSpan.innerText = counter;
     if (counter === 0) {
         stopClock();
-        modalSpan.innerText = "YOU WON 🥳";
-        // 모달
-        modalElem.classList.remove("hidden");
-        // 모달
+        popUp.display("YOU WON 🥳");
         sound.winPlay();
     }
-    // BGM
 
 }
 
@@ -151,8 +141,6 @@ section.addEventListener("click", e => {
 
 // redobtn, 처음부터 다시함.
 redoBtn.addEventListener("click", () => {
-    modalElem.classList.add("hidden");
-    // 모달
+    popUp.hide();
     checkState();
-    // 모달 없애는거 추가
 });

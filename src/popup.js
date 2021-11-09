@@ -10,6 +10,6 @@ export default class Popup {
     }
 
     hide() {
-        
+        this.elem.classList.add("hidden");
     }
 }
