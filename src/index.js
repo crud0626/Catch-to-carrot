@@ -1,10 +1,10 @@
-const section = document.querySelector("section");
+const section = document.querySelector("section"); // Field
 const topBtn = document.querySelector("div.topBtn");
-const redoBtn = document.querySelector("div.redoBtn > i");
+const redoBtn = document.querySelector("div.redoBtn > i"); // Game에 넣을예정.
 const timerSpan = document.querySelector("div.timer span");
 const countSpan = document.querySelector("div.count span");
-const modalElem = document.querySelector("div.modal"); // 일단 놔두기
-const modalSpan = document.querySelector("div.modal > span"); // 일단 놔두기
+const modalElem = document.querySelector("div.modal"); // popUp, 일단보류
+const modalSpan = document.querySelector("div.modal > span"); // popUp, 일단보류
 
 let playTime;
 let timeChecker;
@@ -12,11 +12,13 @@ let counter;
 let timeID;
 
 // import
-
 import * as sound from "./sound.js";
 
 import Popup from "./popup.js";
 const popUp = new Popup(modalElem, modalSpan);
+
+import Field from "./field.js";
+const gameField = new Field(section);
 
 
 
@@ -49,8 +51,8 @@ function initGame() {
 
     timerSpan.innerText = `00:${playTime}`;
 
-    // Test
-    createItem();
+    // Field 예정
+    gameField.createItem();
 
     startClock(timerSpan);
     countSpan.innerText = counter;
@@ -58,7 +60,7 @@ function initGame() {
     // 노래 재생도 넣어야함.
 }
 
-// Clear
+
 function startClock(timerSpan) {
     sound.mainPlay();
     timeID = setTimeout(() => {
@@ -71,6 +73,9 @@ function startClock(timerSpan) {
         decreaseTime(timerSpan);
     }, 1000)
 }
+
+
+
 
 function decreaseTime(timerSpan) {
     playTime -= 1;
@@ -85,24 +90,6 @@ function stopClock() {
     topBtn.innerHTML = `<i data-func="play" class="fas fa-play playBtn"></i>`;
     clearTimeout(timeID);
     // 멈췄을때 섹션에서 이벤트 빼기. 근데 이렇게 되면 resume할 때 이벤트리스너 다시 추가해야될수도
-}
-
-// test결과 여유있게 x는 ~90vw, y는 ~30vh정도까지가 스크롤이 생기지 않아 난수를 제한할 수 있도록 했다.
-function createItem() {
-    let item = 10;
-    let itemsElem = [];
-
-    for (let i = 0; i < item; i++) {
-        let bugX = Math.random() * (90 - 0) + 0;
-        let bugY = Math.random() * (30 - 0) + 0;
-
-        let carrotX = Math.random() * (90 - 0) + 0;
-        let carrotY = Math.random() * (30 - 0) + 0;
-
-        itemsElem.push(`<div style="transform: translate(${bugX}vw, ${bugY}vh);" class="item"><img src="./img/bug.png" alt="bug"></div>`);
-        itemsElem.push(`<div style="transform: translate(${carrotX}vw, ${carrotY}vh);" class="item"><img src="./img/carrot.png" alt="carrot"></div>`);
-    }
-    itemsElem.forEach((elem) => section.innerHTML += elem);
 }
 
 // 시간종료 및 버그 클릭했을때
