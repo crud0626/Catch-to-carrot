@@ -3,21 +3,22 @@ const topBtn = document.querySelector("div.topBtn");
 const redoBtn = document.querySelector("div.redoBtn > i");
 const timerSpan = document.querySelector("div.timer span");
 const countSpan = document.querySelector("div.count span");
-const modalElem = document.querySelector("div.modal");
-const modalSpan = document.querySelector("div.modal > span");
+const modalElem = document.querySelector("div.modal"); // 일단 놔두기
+const modalSpan = document.querySelector("div.modal > span"); // 일단 놔두기
 
 let playTime;
 let timeChecker;
 let counter;
 let timeID;
 
-// Audio variable
-const alertSound = new Audio("./sound/alert.wav");
-const mainSound = new Audio("./sound/bg.mp3");
-const bugSound = new Audio("./sound/bug_pull.mp3");
-const carrotSound = new Audio("./sound/carrot_pull.mp3");
-const winSound = new Audio("./sound/game_win.mp3");
-// End of audio
+// import
+
+import * as sound from "./sound.js";
+
+// import Popup from "./popup.js";
+
+// const popUp = new Popup(modalElem, modalSpan);
+
 
 
 // Clear
@@ -60,10 +61,10 @@ function initGame() {
 
 // Clear
 function startClock(timerSpan) {
-    mainSound.play();
+    sound.mainPlay();
     timeID = setTimeout(() => {
         if (playTime === 0) {
-            alertSound.play();
+            sound.alertPlay();
             stopClock();
             failedGame();
             return;
@@ -81,7 +82,7 @@ function decreaseTime(timerSpan) {
 
 // Clear
 function stopClock() {
-    mainSound.pause();
+    sound.mainStop();
     topBtn.innerHTML = `<i data-func="play" class="fas fa-play playBtn"></i>`;
     clearTimeout(timeID);
     // 멈췄을때 섹션에서 이벤트 빼기. 근데 이렇게 되면 resume할 때 이벤트리스너 다시 추가해야될수도
@@ -108,12 +109,16 @@ function createItem() {
 // 시간종료 및 버그 클릭했을때
 function failedGame() {
     modalSpan.innerText = "YOU LOSE 😭";
+    // 모달
     modalElem.classList.remove("hidden");
+    // 모달
+    popUp.display("YOU LOSE 😭");
+    // 모달 test
     stopClock();
 }
 
 function decreaseCount(e) {
-    carrotSound.play();
+    sound.carrotPlay();
     let deleteItem = e.target.parentNode;
     deleteItem.remove();
 
@@ -122,8 +127,10 @@ function decreaseCount(e) {
     if (counter === 0) {
         stopClock();
         modalSpan.innerText = "YOU WON 🥳";
+        // 모달
         modalElem.classList.remove("hidden");
-        winSound.play();
+        // 모달
+        sound.winPlay();
     }
     // BGM
 
@@ -134,7 +141,7 @@ section.addEventListener("click", e => {
     switch (e.target.alt) {
         case "bug":
             failedGame();
-            bugSound.play();
+            sound.bugPlay();
             break;
         case "carrot":
             decreaseCount(e);
@@ -145,6 +152,7 @@ section.addEventListener("click", e => {
 // redobtn, 처음부터 다시함.
 redoBtn.addEventListener("click", () => {
     modalElem.classList.add("hidden");
+    // 모달
     checkState();
     // 모달 없애는거 추가
 });
