@@ -1,8 +1,8 @@
+
 export default class Field {
-    constructor(section) {
-        // this.section = document.querySelector("section"); // 여기서 안되면 인자로 받아와야함.
-        this.section = section;
-        // this.section.addEventListener("click", e => this.onClick(e));
+    constructor() {
+        this.section = document.querySelector("section");
+
 
     }
 
@@ -25,18 +25,4 @@ export default class Field {
         }
         itemsElem.forEach((elem) => this.section.innerHTML += elem);
     }
-    
-
-    // failedGame이랑 decreaseCount를 index.js에서 받아와야하는데 ;;
-    // onClick(e) {
-    //     switch (e.target.alt) {
-    //         case "bug":
-    //             failedGame();
-    //             sound.bugPlay();
-    //             break;
-    //         case "carrot":
-    //             decreaseCount(e);
-    //             break;
-    //     }
-    // }
 }
