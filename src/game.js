@@ -30,6 +30,7 @@ export class Game {
             } else {
                 this.topBtn.innerHTML = `
                 <i data-func="play" class="fas fa-play playBtn"></i>`;
+                sound.mainStop();
                 this.stopClock();
             }
         });
@@ -58,12 +59,13 @@ export class Game {
         let deleteItem = event.target.parentNode;
         deleteItem.remove();
     
-        this.count -= 1;
-        countSpan.innerText = this.count;
-        if (this.count === 0) {
+        this.playingCount -= 1;
+        countSpan.innerText = this.playingCount;
+        if (this.playingCount === 0) {
+            sound.mainStop();
+            sound.winPlay();
             this.stopClock();
             popUp.display("YOU WON 🥳");
-            sound.winPlay();
         }
     }
 
@@ -79,24 +81,34 @@ export class Game {
     gameField.section.innerHTML = "";
     this.playingCount = this.count;
     this.playingTime = this.time;
-
-
     timerSpan.innerText = `00:${this.playingTime}`;
+    countSpan.innerText = this.playingCount;
     gameField.createItem();
     this.startClock(timerSpan);
-    countSpan.innerText = this.count;
+    
     }
 
     redo() {
-        clearTimeout(this.timeID);
-        this.topBtn.innerHTML = `<i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
+        sound.mainStop();
+        this.stopClock(true);
         this.init();
     }
+
+    stopClock(playing) {
+        if (playing) {
+            this.topBtn.innerHTML = `<i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
+        } else {
+            this.topBtn.innerHTML = `<i data-func="play" class="fas fa-play playBtn"></i>`;
+        }
+        clearTimeout(this.timeID);
+        // 멈췄을때 섹션에서 이벤트 빼기. 근데 이렇게 되면 resume할 때 이벤트리스너 다시 추가해야될수도
+        }
 
     startClock() { // init에서 인자로 넘겼음.
         sound.mainPlay();
         this.timeID = setTimeout(() => {
             if (this.playingTime === 0) {
+                sound.mainStop();
                 sound.alertPlay();
                 this.stopClock();
                 this.failedGame();
@@ -104,13 +116,6 @@ export class Game {
             }
             this.decreaseTime();
         }, 1000)
-    }
-
-    stopClock() {
-    sound.mainStop();
-    this.topBtn.innerHTML = `<i data-func="play" class="fas fa-play playBtn"></i>`;
-    clearTimeout(this.timeID);
-    // 멈췄을때 섹션에서 이벤트 빼기. 근데 이렇게 되면 resume할 때 이벤트리스너 다시 추가해야될수도
     }
 
     decreaseTime() {
@@ -121,8 +126,10 @@ export class Game {
     this.startClock();
     }
 
+    // failed로 수정, 나중에 주석 삭제할때 같이 하기.
     failedGame() {
     popUp.display("YOU LOSE 😭");
+    sound.mainStop();
     this.stopClock();
     }
 }
