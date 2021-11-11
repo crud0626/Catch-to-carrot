@@ -22,7 +22,7 @@ export default class Game {
             if (e.target.dataset.func === "play") {
                 this.topBtn.innerHTML = `
                 <i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
-                this.checkState(); // play버튼 눌렀을 때
+                this.checkPause(); // play버튼 눌렀을 때
             } else {
                 this.topBtn.innerHTML = `
                 <i data-func="play" class="fas fa-play playBtn"></i>`;
@@ -33,7 +33,7 @@ export default class Game {
         this.redoBtn = document.querySelector("div.redoBtn > i");
         this.redoBtn.addEventListener("click", () => {
             popUp.hide();
-            this.redoGame();
+            this.redo();
         });
 
         gameField.section.addEventListener("click",event => {
@@ -63,16 +63,15 @@ export default class Game {
         }
     }
 
-    // 일시정지 확인용
-    checkState() {
+    checkPause() {
         if(this.playTime === 0) {
-            this.initGame();
+            this.init();
         } else {
             this.startClock();
         }
     }
 
-    initGame() {
+    init() {
     gameField.section.innerHTML = "";
     this.counter = 10;
     this.playTime = 10;
@@ -82,13 +81,13 @@ export default class Game {
     countSpan.innerText = this.counter;
     }
 
-    redoGame() {
+    redo() {
         clearTimeout(this.timeID);
         this.topBtn.innerHTML = `<i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
-        this.initGame();
+        this.init();
     }
 
-    startClock() { // initGame에서 인자로 넘겼음.
+    startClock() { // init에서 인자로 넘겼음.
         sound.mainPlay();
         this.timeID = setTimeout(() => {
             if (this.playTime === 0) {
