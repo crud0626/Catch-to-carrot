@@ -1,38 +1,64 @@
 'use strict';
-export const redoBtn = document.querySelector("div.redoBtn > i");
-export const topBtn = document.querySelector("div.topBtn");
-export const timerSpan = document.querySelector("div.timer span");
-export const countSpan = document.querySelector("div.count span");
+
+const timerSpan = document.querySelector("div.timer span");
+const countSpan = document.querySelector("div.count span");
+
+import PopUp from "./popup.js";
+const popUp = new PopUp();
 
 import Field from "./field.js";
 const gameField = new Field();
 
 import * as sound from "./sound.js";
 
-export class Game {
-    constructor(popUp) {
-        this.popUp = popUp;
-
+export default class Game {
+    constructor() {
         this.counter = 0;
         this.playTime = 0;
         this.timeID;
 
-        redoBtn.addEventListener("click", () => {
-            this.popUp.hide();
-            this.checkState();
+        this.topBtn = document.querySelector("div.topBtn");
+        this.topBtn.addEventListener("click", e => {
+            if (e.target.dataset.func === "play") {
+                this.topBtn.innerHTML = `
+                <i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
+                this.checkState(); // play버튼 눌렀을 때
+            } else {
+                this.topBtn.innerHTML = `
+                <i data-func="play" class="fas fa-play playBtn"></i>`;
+                this.stopClock();
+            }
+        });
+        
+        this.redoBtn = document.querySelector("div.redoBtn > i");
+        this.redoBtn.addEventListener("click", () => {
+            popUp.hide();
+            this.redoGame();
+        });
+
+        gameField.section.addEventListener("click",event => {
+            switch (event.target.alt) {
+                case "bug":
+                    this.failedGame();
+                    sound.bugPlay();
+                    break;
+                case "carrot":
+                    this.decreaseCount(event);
+                    break;
+            }
         });
     }
 
-    decreaseCount(e) {
+    decreaseCount(event) {
         sound.carrotPlay();
-        let deleteItem = e.target.parentNode;
+        let deleteItem = event.target.parentNode;
         deleteItem.remove();
     
         this.counter -= 1;
         countSpan.innerText = this.counter;
         if (this.counter === 0) {
             this.stopClock();
-            this.popUp.display("YOU WON 🥳");
+            popUp.display("YOU WON 🥳");
             sound.winPlay();
         }
     }
@@ -42,7 +68,7 @@ export class Game {
         if(this.playTime === 0) {
             this.initGame();
         } else {
-            this.startClock(timerSpan); // 인자 꼭 넣어야 되나?
+            this.startClock();
         }
     }
 
@@ -58,11 +84,11 @@ export class Game {
 
     redoGame() {
         clearTimeout(this.timeID);
-        topBtn.innerHTML = `<i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
+        this.topBtn.innerHTML = `<i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
         this.initGame();
     }
 
-    startClock(timerSpan) { // initGame에서 인자로 넘겼음.
+    startClock() { // initGame에서 인자로 넘겼음.
         sound.mainPlay();
         this.timeID = setTimeout(() => {
             if (this.playTime === 0) {
@@ -71,26 +97,27 @@ export class Game {
                 this.failedGame();
                 return;
             }
-            this.decreaseTime(timerSpan);
+            this.decreaseTime();
         }, 1000)
     }
 
     stopClock() {
     sound.mainStop();
-    topBtn.innerHTML = `<i data-func="play" class="fas fa-play playBtn"></i>`;
+    this.topBtn.innerHTML = `<i data-func="play" class="fas fa-play playBtn"></i>`;
     clearTimeout(this.timeID);
     // 멈췄을때 섹션에서 이벤트 빼기. 근데 이렇게 되면 resume할 때 이벤트리스너 다시 추가해야될수도
     }
 
-    decreaseTime(timerSpan) {
+    decreaseTime() {
     this.playTime -= 1;
-    timerSpan.innerText = `00:0${this.playTime}`; // time앞에 붙이는건 나중에 추가적으로 고려,
+    timerSpan.innerText = `00:0${this.playTime}`; 
+    // time앞에 붙이는건 나중에 추가적으로 고려,
     // 이거 숫자니까 if 1 < 10보다 작으면 앞에 0붙이는걸로
-    this.startClock(timerSpan);
+    this.startClock();
     }
 
     failedGame() {
-    this.popUp.display("YOU LOSE 😭");
+    popUp.display("YOU LOSE 😭");
     this.stopClock();
     }
 }
