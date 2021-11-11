@@ -2,8 +2,6 @@
 export default class Field {
     constructor() {
         this.section = document.querySelector("section");
-
-
     }
 
     createItem() {
@@ -13,6 +11,7 @@ export default class Field {
 
         // test결과 여유있게 x는 ~90vw, y는 ~30vh정도까지가 스크롤이 생기지 않아 난수를 제한할 수 있도록 했다.
         // math.random 함수로 빼고 item크기로 해서 위치 잡을 예정.
+        // Item의 크기가 변하는걸 고려
         for (let i = 0; i < item; i++) {
             let bugX = Math.random() * (90 - 0) + 0;
             let bugY = Math.random() * (30 - 0) + 0;
