@@ -1,15 +1,27 @@
-export default class Popup {
-    constructor(elem, span) {
-        this.elem = elem;
-        this.span = span;
+'use strict';
+export default class PopUp {
+    constructor() {
+        this.container = document.querySelector("div.modalcontainer");
+        this.modal = document.querySelector("div.modal");
+        this.span = document.querySelector("div.modal > span");
     }
 
     display(text) {
         this.span.innerText = text;
-        this.elem.classList.remove("hidden");
+        this.container.classList.remove("hidden");
+        this.modal.classList.remove("hidden");
     }
 
     hide() {
-        this.elem.classList.add("hidden");
+        this.container.classList.add("hidden");
+        this.modal.classList.add("hidden");
+    }
+
+    onClickEvent() {
+        this.container.classList.add("hidden");
+    }
+
+    offClickEvent() {
+        this.container.classList.remove("hidden");
     }
 }

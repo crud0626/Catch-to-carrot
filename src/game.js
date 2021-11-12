@@ -32,6 +32,7 @@ export class Game {
                 <i data-func="play" class="fas fa-play playBtn"></i>`;
                 sound.mainStop();
                 this.stopClock();
+                popUp.offClickEvent();
             }
         });
         
@@ -74,6 +75,7 @@ export class Game {
             this.init();
         } else {
             this.startClock();
+            popUp.onClickEvent();
         }
     }
 

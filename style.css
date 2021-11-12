@@ -82,12 +82,20 @@ section.ground {
 
 /* modal */
 
+div.modalcontainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 50vh;
+}
+
 div.modal {
   position: absolute;
   left: 35%;
   bottom: 20%;
   width: 30%;
-  height: 20%;
+  height: 40%;
   font-size: 2rem;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
@@ -105,9 +113,6 @@ div.redoBtn {
 
 div.redoBtn > i {
   padding: 10px;
-}
-
-div.redoBtn > span {
 }
 
 div.item {
