@@ -111,6 +111,10 @@ div.item {
   &:hover {
     transform: scale(1.1);
   }
+  // img 기본값이 display:inline인데 컨테이너인 div가 자동적으로 line-height를 적용하므로 block으로 적용해 컨테이너와 img의 사이즈를 같도록 하였음.
+  > img {
+    display: block;
+  }
 }
 
 /* HIDDEN */

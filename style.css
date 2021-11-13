@@ -137,6 +137,10 @@ div.item:hover {
           transform: scale(1.1);
 }
 
+div.item > img {
+  display: block;
+}
+
 /* HIDDEN */
 .hidden {
   visibility: hidden;

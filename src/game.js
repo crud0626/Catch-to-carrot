@@ -12,9 +12,10 @@ export const gameField = new Field();
 import * as sound from "./sound.js";
 
 export class Game {
-    constructor(count, time) {
+    constructor(count, time, itemSize) {
         this.count = count;
         this.time = time;
+        this.itemSize = itemSize;
         this.timeID;
 
         this.playingCount = 0;
@@ -84,7 +85,7 @@ export class Game {
     this.playingTime = this.time;
     timerSpan.innerText = `00:${this.playingTime}`;
     countSpan.innerText = this.playingCount;
-    gameField.createItem();
+    gameField.createItem(this.count, this.itemSize); // 개수랑 사이즈
     this.startClock(timerSpan);
     
     }
