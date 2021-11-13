@@ -17,7 +17,6 @@ export class Game {
         this.time = time;
         this.timeID;
 
-        // 임시
         this.playingCount = 0;
         this.playingTime = 0;
 
@@ -26,7 +25,7 @@ export class Game {
             if (e.target.dataset.func === "play") {
                 this.topBtn.innerHTML = `
                 <i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
-                this.checkPause(); // play버튼 눌렀을 때
+                this.checkPause();
             } else {
                 this.topBtn.innerHTML = `
                 <i data-func="play" class="fas fa-play playBtn"></i>`;
