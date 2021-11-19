@@ -83,9 +83,9 @@ export default class Game {
     gameField.section.innerHTML = "";
     this.playingCount = this.count;
     this.playingTime = this.time;
-    timerSpan.innerText = `00:${this.playingTime}`;
+    this.displayTime();
     countSpan.innerText = this.playingCount;
-    gameField.createItem(this.count, this.itemSize); // 개수랑 사이즈
+    gameField.createItem(this.count, this.itemSize);
     this.startClock(timerSpan);
     
     }
@@ -121,9 +121,7 @@ export default class Game {
 
     decreaseTime() {
     this.playingTime -= 1;
-    timerSpan.innerText = `00:0${this.playingTime}`; 
-    // time앞에 붙이는건 나중에 추가적으로 고려,
-    // 이거 숫자니까 if 1 < 10보다 작으면 앞에 0붙이는걸로
+    this.displayTime();
     this.startClock();
     }
 
@@ -131,5 +129,13 @@ export default class Game {
     popUp.display("YOU LOSE 😭");
     sound.mainStop();
     this.stopClock();
+    }
+    
+    displayTime() {
+        if(this.playingTime > 9) {
+            timerSpan.innerText = `00:${this.playingTime}`;
+        } else {
+            timerSpan.innerText = `00:0${this.playingTime}`;
+        }
     }
 }

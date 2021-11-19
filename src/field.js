@@ -1,4 +1,6 @@
 
+'use strict';
+
 export default class Field {
     constructor() {
         this.section = document.querySelector("section");
