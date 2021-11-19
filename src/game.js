@@ -7,11 +7,11 @@ import PopUp from "./popup.js";
 const popUp = new PopUp();
 
 import Field from "./field.js";
-export const gameField = new Field();
+const gameField = new Field();
 
 import * as sound from "./sound.js";
 
-export class Game {
+export default class Game {
     constructor(count, time, itemSize) {
         this.count = count;
         this.time = time;
@@ -45,7 +45,7 @@ export class Game {
         gameField.section.addEventListener("click",event => {
             switch (event.target.alt) {
                 case "bug":
-                    this.failedGame();
+                    this.failed();
                     sound.bugPlay();
                     break;
                 case "carrot":
@@ -103,17 +103,16 @@ export class Game {
             this.topBtn.innerHTML = `<i data-func="play" class="fas fa-play playBtn"></i>`;
         }
         clearTimeout(this.timeID);
-        // 멈췄을때 섹션에서 이벤트 빼기. 근데 이렇게 되면 resume할 때 이벤트리스너 다시 추가해야될수도
         }
 
-    startClock() { // init에서 인자로 넘겼음.
+    startClock() {
         sound.mainPlay();
         this.timeID = setTimeout(() => {
             if (this.playingTime === 0) {
                 sound.mainStop();
                 sound.alertPlay();
                 this.stopClock();
-                this.failedGame();
+                this.failed();
                 return;
             }
             this.decreaseTime();
@@ -128,8 +127,7 @@ export class Game {
     this.startClock();
     }
 
-    // failed로 수정, 나중에 주석 삭제할때 같이 하기.
-    failedGame() {
+    failed() {
     popUp.display("YOU LOSE 😭");
     sound.mainStop();
     this.stopClock();
