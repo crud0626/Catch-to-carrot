@@ -9,7 +9,8 @@ const popUp = new PopUp();
 import Field from "./field.js";
 const gameField = new Field();
 
-import * as sound from "./sound.js";
+import Sound from "./sound.js";
+const sounds = new Sound();
 
 export default class Game {
     constructor(count, time, itemSize) {
@@ -30,7 +31,7 @@ export default class Game {
             } else {
                 this.topBtn.innerHTML = `
                 <i data-func="play" class="fas fa-play playBtn"></i>`;
-                sound.mainStop();
+                sounds.mainStop();
                 this.stopClock();
                 popUp.offClickEvent();
             }
@@ -46,7 +47,7 @@ export default class Game {
             switch (event.target.alt) {
                 case "bug":
                     this.failed();
-                    sound.bugPlay();
+                    sounds.bugPlay();
                     break;
                 case "carrot":
                     this.decreaseCount(event);
@@ -56,15 +57,15 @@ export default class Game {
     }
 
     decreaseCount(event) {
-        sound.carrotPlay();
+        sounds.carrotPlay();
         let deleteItem = event.target.parentNode;
         deleteItem.remove();
     
         this.playingCount -= 1;
         countSpan.innerText = this.playingCount;
         if (this.playingCount === 0) {
-            sound.mainStop();
-            sound.winPlay();
+            sounds.mainStop();
+            sounds.winPlay();
             this.stopClock();
             popUp.display("YOU WON 🥳");
         }
@@ -91,7 +92,7 @@ export default class Game {
     }
 
     redo() {
-        sound.mainStop();
+        sounds.mainStop();
         this.stopClock(true);
         this.init();
     }
@@ -106,11 +107,11 @@ export default class Game {
         }
 
     startClock() {
-        sound.mainPlay();
+        sounds.mainPlay();
         this.timeID = setTimeout(() => {
             if (this.playingTime === 0) {
-                sound.mainStop();
-                sound.alertPlay();
+                sounds.mainStop();
+                sounds.alertPlay();
                 this.stopClock();
                 this.failed();
                 return;
@@ -127,7 +128,7 @@ export default class Game {
 
     failed() {
     popUp.display("YOU LOSE 😭");
-    sound.mainStop();
+    sounds.mainStop();
     this.stopClock();
     }
     

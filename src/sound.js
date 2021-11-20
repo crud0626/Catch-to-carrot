@@ -1,23 +1,37 @@
 'use strict';
 
-const alertSound = new Audio("./sound/alert.wav");
-const mainSound = new Audio("./sound/bg.mp3");
-const bugSound = new Audio("./sound/bug_pull.mp3");
-const carrotSound = new Audio("./sound/carrot_pull.mp3");
-const winSound = new Audio("./sound/game_win.mp3");
+export default class Sound {
+    constructor() {
+        this.alertSound = new Audio("./sound/alert.wav");
+        this.mainSound = new Audio("./sound/bg.mp3");
+        this.bugSound = new Audio("./sound/bug_pull.mp3");
+        this.carrotSound = new Audio("./sound/carrot_pull.mp3");
+        this.winSound = new Audio("./sound/game_win.mp3");
+    }
+    alertPlay() { 
+        playSound(this.alertSound);
+    };
 
+    mainPlay() {
+        playSound(this.mainSound);
+    };
 
-export function alertPlay() { playSound(alertSound)};
+    bugPlay() {
+        playSound(this.bugSound);
+    };
 
-export function mainPlay() { playSound(mainSound)};
+    carrotPlay() {
+        playSound(this.carrotSound);
+    };
 
-export function bugPlay() { playSound(bugSound)};
+    winPlay() {
+        playSound(this.winSound);
+    };
 
-export function carrotPlay() { playSound(carrotSound)};
-
-export function winPlay() { playSound(winSound)};
-
-export function mainStop() { stopSound(mainSound)};
+    mainStop() {
+        stopSound(this.mainSound);
+    };
+}
 
 function playSound(sound) {
     sound.play();
