@@ -12,7 +12,25 @@ const gameField = new Field();
 import Sound from "./sound.js";
 const sounds = new Sound();
 
-export default class Game {
+export default class GameSetter {
+    setCount(value) {
+        this.count = value;
+        return this;
+    }
+    setTime(value) {
+        this.time = value;
+        return this;
+    }
+    setItemSize(value) {
+        this.itemSize = value;
+        return this;
+    }
+    createGame() {
+        new Game(this.count, this.time, this.itemSize)
+    }
+}
+
+class Game {
     constructor(count, time, itemSize) {
         this.count = count;
         this.time = time;
