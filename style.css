@@ -32,7 +32,7 @@ header {
           justify-content: center;
 }
 
-header * {
+header > * {
   display: inline-block;
   margin-top: 10px;
 }
