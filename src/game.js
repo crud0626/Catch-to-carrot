@@ -26,7 +26,7 @@ export default class GameSetter {
         return this;
     }
     createGame() {
-        new Game(this.count, this.time, this.itemSize)
+        new Game(this.count, this.time, this.itemSize);
     }
 }
 
@@ -78,14 +78,10 @@ class Game {
         sounds.carrotPlay();
         let deleteItem = event.target.parentNode;
         deleteItem.remove();
-    
         this.playingCount -= 1;
         countSpan.innerText = this.playingCount;
         if (this.playingCount === 0) {
-            sounds.mainStop();
-            sounds.winPlay();
-            this.stopClock();
-            popUp.display("YOU WON 🥳");
+            this.victory();
         }
     }
 
@@ -99,6 +95,7 @@ class Game {
     }
 
     init() {
+    this.topBtn.classList.remove("hidden");
     gameField.section.innerHTML = "";
     this.playingCount = this.count;
     this.playingTime = this.time;
@@ -106,7 +103,6 @@ class Game {
     countSpan.innerText = this.playingCount;
     gameField.createItem(this.count, this.itemSize);
     this.startClock(timerSpan);
-    
     }
 
     redo() {
@@ -122,7 +118,7 @@ class Game {
             this.topBtn.innerHTML = `<i data-func="play" class="fas fa-play playBtn"></i>`;
         }
         clearTimeout(this.timeID);
-        }
+    }
 
     startClock() {
         sounds.mainPlay();
@@ -144,7 +140,16 @@ class Game {
     this.startClock();
     }
 
+    victory() {
+        this.topBtn.classList.add("hidden");
+        sounds.mainStop();
+        sounds.winPlay();
+        this.stopClock();
+        popUp.display("YOU WON 🥳");
+    }
+
     failed() {
+    this.topBtn.classList.add("hidden");
     popUp.display("YOU LOSE 😭");
     sounds.mainStop();
     this.stopClock();
