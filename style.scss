@@ -1,8 +1,9 @@
 $borderBlock: 1px solid black;
 $padding_1020: 10px 20px;
 $main_font_size: 2rem;
-$field_size: 50vh;
+$field_size: 50%;
 $main_border_radius: 10px;
+$footer_bottom_height: 5vh;
 
 * {
   box-sizing: border-box;
@@ -13,7 +14,7 @@ html {
   padding: 0;
   body {
     @extend html;
-    height: 100vh;
+    height: 95vh;
     background-image: url("./img/background.png");
     background-size: cover;
     background-repeat: no-repeat;
@@ -30,6 +31,23 @@ header {
     display: inline-block;
     margin-top: 10px;
   }
+  > div.timer {
+    background-color: white;
+    border: $borderBlock;
+    border-radius: $main_border_radius;
+    font-size: $main_font_size;
+    padding: $padding_1020;
+  }
+  > div.count {
+    width: 60px;
+    border: $borderBlock;
+    font-size: $main_font_size;
+    padding: 5px 10px;
+    border-radius: 50%;
+    text-align: center;
+    color: white;
+    background-color: rgb(255, 102, 102);
+  }
 }
 
 div.topBtn {
@@ -37,30 +55,10 @@ div.topBtn {
   border: $borderBlock;
   border-radius: $main_border_radius;
   background-color: rgb(153, 255, 200);
-
   > i {
     padding: $padding_1020;
     font-size: $main_font_size;
   }
-}
-
-div.timer {
-  background-color: white;
-  border: $borderBlock;
-  border-radius: $main_border_radius;
-  font-size: $main_font_size;
-  padding: $padding_1020;
-}
-
-div.count {
-  width: 60px;
-  border: $borderBlock;
-  font-size: $main_font_size;
-  padding: 5px 10px;
-  border-radius: 50%;
-  text-align: center;
-  color: white;
-  background-color: rgb(255, 102, 102);
 }
 
 div.topBtn,
@@ -78,7 +76,7 @@ section.ground {
 
 div.modalcontainer {
   position: absolute;
-  bottom: 0;
+  bottom: $footer_bottom_height;
   left: 0;
   width: 100vw;
   height: $field_size;
@@ -106,7 +104,7 @@ div.modalcontainer {
   }
 }
 
-// img 기본값이 display:inline인데 컨테이너인 div가 자동적으로 line-height를 적용하므로 block으로 적용해 컨테이너와 img의 사이즈를 같도록 하였음.
+// img가 inline일 때 여백이 생기는 문제가 있어 block으로 변경
 div.item {
   cursor: pointer;
   position: absolute;
@@ -115,6 +113,21 @@ div.item {
   }
   > img {
     display: block;
+  }
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: $footer_bottom_height;
+  background-color: #a68f1f;
+  font-size: 0.8rem;
+  > a {
+    color: black;
+    margin-left: 20px;
+    font-size: 1.5rem;
   }
 }
 

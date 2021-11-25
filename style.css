@@ -9,14 +9,14 @@ html, html body {
 }
 
 html body {
-  height: 100vh;
+  height: 95vh;
   background-image: url("./img/background.png");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 header {
-  height: 50vh;
+  height: 50%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -37,6 +37,25 @@ header > * {
   margin-top: 10px;
 }
 
+header > div.timer {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  font-size: 2rem;
+  padding: 10px 20px;
+}
+
+header > div.count {
+  width: 60px;
+  border: 1px solid black;
+  font-size: 2rem;
+  padding: 5px 10px;
+  border-radius: 50%;
+  text-align: center;
+  color: white;
+  background-color: #ff6666;
+}
+
 div.topBtn {
   display: inline-block;
   border: 1px solid black;
@@ -47,25 +66,6 @@ div.topBtn {
 div.topBtn > i {
   padding: 10px 20px;
   font-size: 2rem;
-}
-
-div.timer {
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 10px;
-  font-size: 2rem;
-  padding: 10px 20px;
-}
-
-div.count {
-  width: 60px;
-  border: 1px solid black;
-  font-size: 2rem;
-  padding: 5px 10px;
-  border-radius: 50%;
-  text-align: center;
-  color: white;
-  background-color: #ff6666;
 }
 
 div.topBtn,
@@ -82,15 +82,15 @@ div.redoBtn:hover {
 }
 
 section.ground {
-  height: 50vh;
+  height: 50%;
 }
 
 div.modalcontainer {
   position: absolute;
-  bottom: 0;
+  bottom: 5vh;
   left: 0;
   width: 100vw;
-  height: 50vh;
+  height: 50%;
 }
 
 div.modalcontainer > div.modal {
@@ -139,6 +139,28 @@ div.item:hover {
 
 div.item > img {
   display: block;
+}
+
+footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100vw;
+  height: 5vh;
+  background-color: #a68f1f;
+  font-size: 0.8rem;
+}
+
+footer > a {
+  color: black;
+  margin-left: 20px;
+  font-size: 1.5rem;
 }
 
 /* HIDDEN */
