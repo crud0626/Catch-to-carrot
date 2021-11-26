@@ -108,11 +108,12 @@ div.modalcontainer {
 div.item {
   cursor: pointer;
   position: absolute;
-  &:hover {
-    transform: scale(1.1);
-  }
   > img {
     display: block;
+    transition: transform 150ms;
+  }
+  &:hover > img {
+    transform: scale(1.1);
   }
 }
 

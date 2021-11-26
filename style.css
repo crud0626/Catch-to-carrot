@@ -132,13 +132,17 @@ div.item {
   position: absolute;
 }
 
-div.item:hover {
-  -webkit-transform: scale(1.1);
-          transform: scale(1.1);
-}
-
 div.item > img {
   display: block;
+  -webkit-transition: -webkit-transform 150ms;
+  transition: -webkit-transform 150ms;
+  transition: transform 150ms;
+  transition: transform 150ms, -webkit-transform 150ms;
+}
+
+div.item:hover > img {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
 }
 
 footer {
