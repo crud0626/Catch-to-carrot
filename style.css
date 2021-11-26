@@ -3,12 +3,13 @@
           box-sizing: border-box;
 }
 
-html, html body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
 
-html body {
+div.article {
   height: 95vh;
   background-image: url("./img/background.png");
   background-size: cover;
@@ -162,9 +163,13 @@ footer {
 }
 
 footer > a {
-  color: black;
+  color: #731f0d;
   margin-left: 20px;
   font-size: 1.5rem;
+}
+
+footer > a :hover {
+  color: black;
 }
 
 /* HIDDEN */

@@ -9,16 +9,17 @@ $footer_bottom_height: 5vh;
   box-sizing: border-box;
 }
 
-html {
+html,
+body {
   margin: 0;
   padding: 0;
-  body {
-    @extend html;
-    height: 95vh;
-    background-image: url("./img/background.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
+}
+
+div.article {
+  height: 100vh - $footer_bottom_height;
+  background-image: url("./img/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 header {
@@ -126,9 +127,12 @@ footer {
   background-color: #a68f1f;
   font-size: 0.8rem;
   > a {
-    color: black;
+    color: #731f0d;
     margin-left: 20px;
     font-size: 1.5rem;
+    & :hover {
+      color: rgb(0, 0, 0);
+    }
   }
 }
 
