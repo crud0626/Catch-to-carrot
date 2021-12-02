@@ -13,10 +13,6 @@ import Sound from "./sound.js";
 const sounds = new Sound();
 
 export default class GameSetter {
-    setCount(value) {
-        this.count = value;
-        return this;
-    }
     setTime(value) {
         this.time = value;
         return this;
@@ -26,13 +22,12 @@ export default class GameSetter {
         return this;
     }
     createGame() {
-        new Game(this.count, this.time, this.itemSize);
+        new Game(this.time, this.itemSize);
     }
 }
 
 class Game {
-    constructor(count, time, itemSize) {
-        this.count = count;
+    constructor(time, itemSize) {
         this.time = time;
         this.itemSize = itemSize;
         this.timeID;
@@ -87,6 +82,7 @@ class Game {
 
     checkPause() {
         if(this.playingTime === 0) {
+            
             this.init();
         } else {
             this.startClock();
@@ -95,14 +91,17 @@ class Game {
     }
 
     init() {
+        // 조건문 걸어줘야함 count가 true인지.
     this.topBtn.classList.remove("hidden");
     gameField.section.innerHTML = "";
-    this.playingCount = this.count;
     this.playingTime = this.time;
     this.displayTime();
-    countSpan.innerText = this.playingCount;
-    gameField.createItem(this.count, this.itemSize);
+    const countElem = document.querySelector("input[type=radio]:checked");
+    const count = +countElem.value;
+    gameField.createItem(count, this.itemSize);
     this.startClock(timerSpan);
+    this.playingCount = count;
+    countSpan.innerText = this.playingCount;
     }
 
     redo() {
