@@ -1,5 +1,6 @@
 'use strict';
 
+// 전역으로 선언해야되는 이유??
 const timerSpan = document.querySelector("div.timer span");
 const countSpan = document.querySelector("div.count span");
 
@@ -38,8 +39,6 @@ class Game {
         this.topBtn = document.querySelector("div.topBtn");
         this.topBtn.addEventListener("click", e => {
             if (e.target.dataset.func === "play") {
-                this.topBtn.innerHTML = `
-                <i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
                 this.checkPause();
             } else {
                 this.topBtn.innerHTML = `
@@ -81,23 +80,34 @@ class Game {
     }
 
     checkPause() {
+        // 아래 조건문 !this.playingTime으로 바꿔보기.
         if(this.playingTime === 0) {
-            
-            this.init();
+            this.checkLevel();
         } else {
             this.startClock();
             popUp.onClickEvent();
+            this.topBtn.innerHTML = `
+            <i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
         }
     }
 
-    init() {
-        // 조건문 걸어줘야함 count가 true인지.
+    checkLevel() {
+        const countElem = document.querySelector("input[type=radio]:checked");
+        if (!countElem) {
+            alert("레벨이 지정되지 않았습니다.");
+            return;
+        }
+        const count = +countElem.value;
+        this.init(count);
+        this.topBtn.innerHTML = `
+        <i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
+    }
+
+    init(count) {
     this.topBtn.classList.remove("hidden");
     gameField.section.innerHTML = "";
     this.playingTime = this.time;
     this.displayTime();
-    const countElem = document.querySelector("input[type=radio]:checked");
-    const count = +countElem.value;
     gameField.createItem(count, this.itemSize);
     this.startClock(timerSpan);
     this.playingCount = count;
@@ -107,7 +117,7 @@ class Game {
     redo() {
         sounds.mainStop();
         this.stopClock(true);
-        this.init();
+        this.checkLevel();
     }
 
     stopClock(playing) {
