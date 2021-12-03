@@ -19,8 +19,8 @@ export default class Field {
             let carrotX = Math.floor(Math.random() * (maxWidth - minValue) + minValue);
             let carrotY = Math.floor(Math.random() * (maxHeight - minValue) + minValue);
 
-            itemsElem.push(`<div style="transform: translate(${bugX}px, ${bugY}px);" class="item"><img src="./img/bug.png" alt="bug"></div>`);
-            itemsElem.push(`<div style="transform: translate(${carrotX}px, ${carrotY}px);" class="item"><img src="./img/carrot.png" alt="carrot"></div>`);
+            itemsElem.push(`<div style="transform: translate(${bugX}px, ${bugY}px);" class="item"><img src="./img/bug.png" data-char="bug" alt="bugimage"></div>`);
+            itemsElem.push(`<div style="transform: translate(${carrotX}px, ${carrotY}px);" class="item"><img src="./img/carrot.png" data-char="carrot" alt="carrotimage"></div>`);
         }
         itemsElem.forEach((elem) => this.section.innerHTML += elem);
     }

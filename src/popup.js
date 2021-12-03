@@ -6,22 +6,18 @@ export default class PopUp {
         this.span = document.querySelector("div.modal > span");
     }
 
-    display(text) {
-        this.span.innerText = text;
+    display(playTime, text) {
+        if(!playTime) {
+            this.span.innerText = text;
+            this.modal.classList.remove("hidden");
+        }
         this.container.classList.remove("hidden");
-        this.modal.classList.remove("hidden");
     }
 
-    hide() {
+    hide(playTime) {
+        if(!playTime) {
+            this.modal.classList.add("hidden");
+        }
         this.container.classList.add("hidden");
-        this.modal.classList.add("hidden");
-    }
-
-    onClickEvent() {
-        this.container.classList.add("hidden");
-    }
-
-    offClickEvent() {
-        this.container.classList.remove("hidden");
     }
 }

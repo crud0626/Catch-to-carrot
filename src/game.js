@@ -1,9 +1,5 @@
 'use strict';
 
-// 전역으로 선언해야되는 이유??
-const timerSpan = document.querySelector("div.timer span");
-const countSpan = document.querySelector("div.count span");
-
 import PopUp from "./popup.js";
 const popUp = new PopUp();
 
@@ -29,146 +25,138 @@ export default class GameSetter {
 
 class Game {
     constructor(time, itemSize) {
-        this.time = time;
+        this.initTime = time;
         this.itemSize = itemSize;
-        this.timeID;
 
-        this.playingCount = 0;
         this.playingTime = 0;
 
+        this.timerSpan = document.querySelector("div.timer span");
+        this.countSpan = document.querySelector("div.count span");
+        this.levelElem = document.querySelector("div.level");
+
         this.topBtn = document.querySelector("div.topBtn");
-        this.topBtn.addEventListener("click", e => {
-            if (e.target.dataset.func === "play") {
-                this.checkPause();
-            } else {
-                this.topBtn.innerHTML = `
-                <i data-func="play" class="fas fa-play playBtn"></i>`;
-                sounds.mainStop();
-                this.stopClock();
-                popUp.offClickEvent();
-            }
-        });
+        this.topBtn.addEventListener("click", e => this.checkTopBtn(e));
         
         this.redoBtn = document.querySelector("div.redoBtn > i");
-        this.redoBtn.addEventListener("click", () => {
-            popUp.hide();
-            this.redo();
-        });
+        this.redoBtn.addEventListener("click", () => this.redo());
 
-        gameField.section.addEventListener("click",event => {
-            switch (event.target.alt) {
-                case "bug":
-                    this.failed();
-                    sounds.bugPlay();
-                    break;
-                case "carrot":
-                    this.decreaseCount(event);
-                    break;
-            }
-        });
+        gameField.section.addEventListener("click", e => this.checkSectionEvent(e));
+    }
+
+    checkTopBtn(e) {
+        if (e.target.dataset.func === "play") {
+            this.checkPause();
+            return;
+        }
+        this.topBtn.innerHTML = `<i data-func="play" class="fas fa-play playBtn"></i>`;
+        sounds.mainStop();
+        this.stopClock();
+        popUp.display(this.playingTime);
+        }
+
+    checkSectionEvent(event) {
+        switch (event.target.dataset.char) {
+            case "bug":
+                sounds.bugPlay();
+                this.failed();
+                break;
+            case "carrot":
+                sounds.carrotPlay();
+                this.decreaseCount(event);
+                break;
+        }
     }
 
     decreaseCount(event) {
-        sounds.carrotPlay();
-        let deleteItem = event.target.parentNode;
+        const deleteItem = event.target.parentNode;
         deleteItem.remove();
         this.playingCount -= 1;
-        countSpan.innerText = this.playingCount;
-        if (this.playingCount === 0) {
+        this.countSpan.innerText = this.playingCount;
+        if (!this.playingCount) {
             this.victory();
         }
     }
 
     checkPause() {
-        // 아래 조건문 !this.playingTime으로 바꿔보기.
-        if(this.playingTime === 0) {
+        if(!this.playingTime) {
             this.checkLevel();
-        } else {
-            this.startClock();
-            popUp.onClickEvent();
-            this.topBtn.innerHTML = `
-            <i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
+            return;
         }
+        this.startClock();
+        sounds.mainPlay();
+        popUp.hide(this.playingTime);
+        this.topBtn.innerHTML = `<i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
     }
 
     checkLevel() {
-        const countElem = document.querySelector("input[type=radio]:checked");
-        if (!countElem) {
-            alert("레벨이 지정되지 않았습니다.");
+        const checkedElem = document.querySelector("input[type=radio]:checked");
+        if (!checkedElem) {
+            alert("레벨이 지정되지 않았습니다!");
             return;
         }
-        const count = +countElem.value;
-        this.init(count);
-        this.topBtn.innerHTML = `
-        <i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
+        this.init(+checkedElem.value);
+        this.topBtn.innerHTML = `<i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
     }
 
     init(count) {
+    this.levelElem.classList.add("hidden");
     this.topBtn.classList.remove("hidden");
-    gameField.section.innerHTML = "";
-    this.playingTime = this.time;
+    this.playingTime = this.initTime;
     this.displayTime();
+    gameField.section.innerHTML = "";
     gameField.createItem(count, this.itemSize);
-    this.startClock(timerSpan);
+    this.startClock();
+    sounds.mainPlay();
     this.playingCount = count;
-    countSpan.innerText = this.playingCount;
+    this.countSpan.innerText = this.playingCount;
     }
 
     redo() {
+        popUp.hide(this.playingTime);
         sounds.mainStop();
-        this.stopClock(true);
+        this.stopClock();
         this.checkLevel();
     }
 
-    stopClock(playing) {
-        if (playing) {
-            this.topBtn.innerHTML = `<i data-func="pause" class="fas fa-pause pauseBtn"></i>`;
-        } else {
-            this.topBtn.innerHTML = `<i data-func="play" class="fas fa-play playBtn"></i>`;
-        }
+    stopClock() {
         clearTimeout(this.timeID);
     }
 
     startClock() {
-        sounds.mainPlay();
         this.timeID = setTimeout(() => {
-            if (this.playingTime === 0) {
-                sounds.mainStop();
+            if (!this.playingTime) {
                 sounds.alertPlay();
-                this.stopClock();
                 this.failed();
                 return;
             }
-            this.decreaseTime();
+            this.playingTime -= 1;
+            this.displayTime();
+            this.startClock();
         }, 1000)
     }
 
-    decreaseTime() {
-    this.playingTime -= 1;
-    this.displayTime();
-    this.startClock();
-    }
-
     victory() {
-        this.topBtn.classList.add("hidden");
         sounds.mainStop();
         sounds.winPlay();
+        this.levelElem.classList.remove("hidden");
+        this.topBtn.classList.add("hidden");
         this.stopClock();
-        popUp.display("YOU WON 🥳");
+        this.playingTime = 0;
+        popUp.display(this.playingTime, "YOU WON 🥳");
     }
 
     failed() {
-    this.topBtn.classList.add("hidden");
-    popUp.display("YOU LOSE 😭");
-    sounds.mainStop();
-    this.stopClock();
+        sounds.mainStop();
+        this.levelElem.classList.remove("hidden");
+        this.topBtn.classList.add("hidden");
+        this.stopClock();
+        this.playingTime = 0;
+        popUp.display(this.playingTime, "YOU LOSE 😭");
     }
     
     displayTime() {
-        if(this.playingTime > 9) {
-            timerSpan.innerText = `00:${this.playingTime}`;
-        } else {
-            timerSpan.innerText = `00:0${this.playingTime}`;
-        }
+        this.timerSpan.innerText = this.playingTime > 9 
+        ? `00:${this.playingTime}` 
+        : `00:0${this.playingTime}`;
     }
 }
