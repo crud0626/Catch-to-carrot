@@ -4,6 +4,7 @@ $main_font_size: 2rem;
 $field_size: 50%;
 $main_border_radius: 10px;
 $footer_bottom_height: 5vh;
+$buttons_transition: 0.5s;
 
 * {
   box-sizing: border-box;
@@ -67,7 +68,7 @@ div.redoBtn {
   cursor: pointer;
   &:hover {
     transform: scale(1.1);
-    transition: 100ms ease-in-out;
+    transition: $buttons_transition;
   }
 }
 
@@ -111,7 +112,7 @@ div.item {
   position: absolute;
   > img {
     display: block;
-    transition: transform 150ms;
+    transition: transform $buttons_transition;
   }
   &:hover > img {
     transform: scale(1.1);
@@ -160,7 +161,7 @@ input[type="radio"] + label {
   text-align: center;
   box-shadow: 0 0 0 rgba(255, 255, 255, 0);
   border-radius: $main_border_radius;
-  transition: 0.15s ease-out;
+  transition: $buttons_transition;
   cursor: pointer;
 }
 
